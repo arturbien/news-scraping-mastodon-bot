@@ -1,11 +1,10 @@
-const fs = require("fs");
 const puppeteer = require("puppeteer");
 
-const scrape = async () => {
+module.exports = async () => {
   const URL = "https://www.watchtime.com/category/wristwatch-industry-news/";
   const SELECTOR = "article.post";
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(URL);
 
@@ -21,20 +20,8 @@ const scrape = async () => {
     }, SELECTOR);
 
     browser.close();
-    fs.writeFile("./watchNews.json", JSON.stringify(watchNews), function(err) {
-      if (err) {
-        console.error("Crap happens"); // error 💩
-      } else {
-        console.log("Success! 🏆");
-      }
-    }); // saving to JSON file 📁
-
-    // return watchNews;
+    return watchNews;
   } catch (err) {
     console.error(err); // error 💩
   }
-};
-
-module.exports = {
-  scrape
 };
